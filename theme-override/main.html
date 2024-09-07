@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+  {{ super() }}
+  <div class="admonition tip">
+    <p class="admonition-title">获取最新的内容</p>
+    <p>为了避免页面使用缓存</p>
+    <p>Windows 用户可以使用 <span class="keys">
+      <kbd class="key-control">Ctrl</kbd> 
+      <span>+</span>
+      <kbd class="key-shift">Shift</kbd>
+      <span>+</span>
+      <kbd class="key-r">R</span></p>
+    <p>Mac 用户可以使用 <span class="keys">
+      <kbd class="key-command">Command</kbd> 
+      <span>+</span>
+      <kbd class="key-shift">Shift</kbd>
+      <span>+</span>
+      <kbd class="key-r">R</span> 来强制刷新页面，以获取最新的内容</p>
+  </div>
+  {% if git_page_authors %}
+    <div class="md-source-date">
+      <!-- <small>
+          作者: {{ git_page_authors | default('enable mkdocs-git-authors-plugin') }}
+      </small> -->
+    </div>
+  {% endif %}
+{% endblock %}

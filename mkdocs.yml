@@ -1,0 +1,102 @@
+site_name: 软件工程
+site_description: 'Documentation for Software Engineering'
+site_author: 'LinLiuLab'
+copyright: 'Copyright &copy; 2024 LinLiuLab. All Rights Reserved.'
+
+repo_name: 'LinLiuLab/SE-2024'
+repo_url: 'https://github.com/LinLiuLab/SE-2024'
+
+nav:
+  - 课程概述: index.md
+
+theme:
+  name: material
+  icon:
+    logo: material/laptop
+  language: 'zh'
+  custom_dir: 'theme-override/'
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.footer
+    - navigation.expand
+    - navigation.top
+    - navigation.path
+    - navigation.sections
+    - navigation.indexes
+    - header.autohide
+    - content.code.copy
+    - search.share
+    - search.suggest
+    - toc.follow
+  favicon: images/laptop.png
+  palette:
+    - media: '(prefers-color-scheme: light)'
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: 切换到深色模式
+
+    - media: '(prefers-color-scheme: dark)'
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: 切换到浅色模式
+
+
+# Strategy: Use an absolute path
+markdown_extensions:
+  - pymdownx.pathconverter:
+      base_path: '' # default: ''
+      relative_path: '' # default ''
+      absolute: false # default: false
+      tags: 'a script img link object embed'
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true 
+  - pymdownx.arithmatex:
+      generic: true
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - md_in_html
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://fastly.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - 'https://cdn.jsdelivr.net/npm/wavedrom@2.1.2/wavedrom.unpkg.js'
+
+extra_css:
+  - stylesheets/extra.css
+
+plugins:
+  - search:
+      separator: '[\s\u200b\-]'
+  - git-revision-date-localized:
+      fallback_to_build_date: true
+      locale: zh
+  - git-authors:
+      show_contribution: true
+      show_line_count: true
+
+extra:
+  analytics:
+    provider: google
+    property: G-69YPS2LP7R
