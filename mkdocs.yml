@@ -8,6 +8,15 @@ repo_url: 'https://github.com/LinLiuLab/SE-2024'
 
 nav:
   - 课程概述: index.md
+  - 个人作业:
+    - 清软论坛说明: exercises/bbs.md
+    - 测试:
+      - 作业介绍: exercises/software-testing/intro.md
+      - 测试基础: exercises/software-testing/unittest.md
+      - 环境搭建: exercises/software-testing/setup.md
+      - 作业要求: exercises/software-testing/requirements.md
+      - 提交说明: exercises/software-testing/submit.md
+      - FAQ: exercises/software-testing/faq.md
 
 theme:
   name: material
