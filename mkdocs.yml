@@ -17,6 +17,13 @@ nav:
       - 作业要求: exercises/software-testing/requirements.md
       - 提交说明: exercises/software-testing/submit.md
       - FAQ: exercises/software-testing/faq.md
+    - 应用部署:
+      - 作业介绍: exercises/docker/intro.md
+      - Linux基础: exercises/docker/linux.md
+      - Docker基础: exercises/docker/docker.md
+      - 作业要求: exercises/docker/requirements.md
+      - 提交说明: exercises/docker/submit.md
+      - FAQ: exercises/docker/faq.md
 
 theme:
   name: material
