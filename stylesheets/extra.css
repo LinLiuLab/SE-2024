@@ -1,0 +1,57 @@
+.md-typeset h1 {
+    color: var(--md-default-fg-color);
+    /* color: var(--md-default-fg-color--light); */
+    font-size: 2em;
+    line-height: 1.3;
+    margin: 0 0 1.25em
+}
+
+.md-typeset h1,.md-typeset h2 {
+    font-weight: 400;
+    letter-spacing: -.01em
+}
+
+.md-typeset h2 {
+    font-size: 1.5625em;
+    line-height: 1.4;
+    margin: 1.6em 0 .64em
+}
+
+.md-typeset h3 {
+    font-size: 1.25em;
+    font-weight: 400;
+    letter-spacing: -.01em;
+    line-height: 1.5;
+    margin: 1.6em 0 .8em
+}
+
+.md-typeset h2+h3 {
+    margin-top: .8em
+}
+
+.md-typeset h4 {
+    font-weight: 700;
+    letter-spacing: -.01em;
+    margin: 1em 0
+}
+
+.md-typeset h5,.md-typeset h6 {
+    color: var(--md-default-fg-color);
+    /* color: var(--md-default-fg-color--light); */
+
+    font-size: .8em;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    margin: 1.25em 0
+}
+
+/* 一行显示3列 */
+.md-typeset .grid {
+    grid-gap: .4rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+    margin: 1em 0;
+}
+
+  
+  

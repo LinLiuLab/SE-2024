@@ -1,0 +1,1659 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for Software Engineering">
+      
+      
+        <meta name="author" content="LinLiuLab">
+      
+      
+      
+        <link rel="prev" href="../linux/">
+      
+      
+        <link rel="next" href="../requirements/">
+      
+      
+      <link rel="icon" href="../../../images/laptop.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.33">
+    
+    
+      
+        <title>Docker基础 - 软件工程</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.3cba04c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-69YPS2LP7R"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-69YPS2LP7R",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-69YPS2LP7R",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#docker" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="软件工程" class="md-header__button md-logo" aria-label="软件工程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 6h16v10H4m16 2a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H4c-1.11 0-2 .89-2 2v10a2 2 0 0 0 2 2H0v2h24v-2h-4Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            软件工程
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Docker基础
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/LinLiuLab/SE-2024" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    LinLiuLab/SE-2024
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="软件工程" class="md-nav__button md-logo" aria-label="软件工程" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 6h16v10H4m16 2a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H4c-1.11 0-2 .89-2 2v10a2 2 0 0 0 2 2H0v2h24v-2h-4Z"/></svg>
+
+    </a>
+    软件工程
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/LinLiuLab/SE-2024" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    LinLiuLab/SE-2024
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    课程概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    个人作业
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            个人作业
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bbs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    清软论坛说明
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    测试
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            测试
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software-testing/intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    作业介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software-testing/unittest/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    测试基础
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software-testing/setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    环境搭建
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software-testing/requirements/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    作业要求
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software-testing/submit/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交说明
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software-testing/faq/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    应用部署
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            应用部署
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    作业介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux基础
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Docker基础
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Docker基础
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#web" class="md-nav__link">
+    <span class="md-ellipsis">
+      Web 请求处理流程
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nginx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nginx 简介
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      部署简介
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      传统部署中的挑战与困扰
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Docker
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Docker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Docker 的优势
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      主要组件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Docker 安装
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      常用命令
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dockerfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dockerfile
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      Docker Compose
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      实例
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      延展阅读
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../requirements/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    作业要求
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../submit/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交说明
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uml/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UML建模
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#web" class="md-nav__link">
+    <span class="md-ellipsis">
+      Web 请求处理流程
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nginx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nginx 简介
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      部署简介
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      传统部署中的挑战与困扰
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Docker
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Docker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Docker 的优势
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      主要组件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Docker 安装
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      常用命令
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dockerfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dockerfile
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      Docker Compose
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      实例
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      延展阅读
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+  
+                  
+
+  
+  
+
+
+<h1 id="docker">应用部署（Docker）</h1>
+<h2 id="web">Web 请求处理流程</h2>
+<p>HTTP（超文本传输协议，HyperText Transfer Protocol）是一种用于传输超媒体文档的应用层面向对象协议。超媒体文档是一种结构化的文档，它可以包含文本、图片、视频、音频等多种类型的数据，典型代表是 HTML 文档。</p>
+<p>HTTP 是互联网上最广泛使用的应用层协议，因其简洁和高效，广泛应用于分布式信息系统中的数据传输。现在，当我们浏览网页时，背后正是 HTTP 协议在起作用。</p>
+<p>HTTP 采用 C/S（客户端-服务器，Client-Server）模型，这一模型中存在两个不对等的角色：<strong>客户端</strong>和<strong>服务器</strong>。其中服务器为客户端提供数据或服务，这种模型中的两个主要组件——客户端和服务器——都可以<strong>运行在同一台计算机</strong>上，也可以在<strong>两台连接到网络的不同计算机上</strong>运行。此模型广泛应用于网络服务和分布式应用。</p>
+<ul>
+<li>客户端 (Client): 是请求服务的实体。通常，它是一个终端用户设备，如计算机、移动设备或任何可以连接到服务器并请求服务的设备。在 Web 上，浏览器常常作为客户端来请求网页和其他 Web 资源。</li>
+<li>服务器 (Server): 是提供服务的实体。它拥有存储数据的资源并能够处理客户端的请求。服务器可以提供多种服务，如文件服务、打印服务、网络服务或数据库服务。</li>
+</ul>
+<figure>
+<p><img alt="http cs" loading="lazy" src="../../../images/client-server.png" /></p>
+<figcaption>基于请求-应答的 C/S 模型架构图</figcaption>
+</figure>
+<p>在一次 HTTP 的请求过程中，主要有三个步骤</p>
+<ol>
+<li>请求: 客户端发送一个 HTTP 请求到服务器。</li>
+<li>处理: 服务器接收请求并对其进行处理。这可能涉及到数据检索、计算或对其他资源的访问。</li>
+<li>响应: 服务器将结果或请求的数据发送回客户端。</li>
+</ol>
+<p>在此架构中，服务器端配备了一个 Web 服务器软件，其职责是接受客户端的 HTTP 请求并将之路由至相应的后端应用程序（可能是<strong>另一个进程或另一台机器</strong>）处理。当应用程序完成处理并生成响应后，该响应首先传递给 Web 服务器，随后由 Web 服务器统一返回至客户端。</p>
+<p>这里使用的 Web 服务器软件通常是<strong>独立于应用程序的</strong>，它们可以独立运行，也可以作为应用程序的一部分运行。它们可以是 Apache、Nginx、IIS 等。这些 Web 服务器软件可以处理 HTTP 请求、提供静态资源、执行安全检查、管理负载均衡等。它们还可以提供额外的安全层，以保护应用程序免受恶意攻击。</p>
+<h2 id="nginx">Nginx 简介</h2>
+<p><a href="http://nginx.org/en/docs/install.html">Nginx</a> 是一种高效的 HTTP 和反向代理服务器。在生产环境中使用 Nginx，可以帮助处理和平衡进入应用程序的流量，还能提供额外的安全层。它可以接收到客户端的请求，并将其转发到后台服务器，然后再将后台服务器的响应转发给客户端。你可以参考这个博客了解更多：<a href="https://juejin.im/post/6844903944267759624">Nginx使用教程</a>。</p>
+<p>Nginx 可以扮演上文提到的 Web 服务器的角色，即接收来自客户端的请求，并返回响应。在本次作业中，它主要用来实现两个功能，静态文件服务和反向代理。</p>
+<p>假设你需要管理一系列静态资源，如图片、视频、CSS 样式表和 JavaScript 脚本。为了让这些资源能在 Web 上被用户访问和使用，你需要一个合适的方法来高效地提供这些文件。此时，Nginx 作为一个强大的 Web 服务器，正是你理想的选择来托管和分发这些静态内容。</p>
+<p>随着应用的扩展和用户访问量的增长，仅仅提供静态资源可能并不足够。有时，你的应用可能分布在多个服务器或服务上，或者你可能希望通过某种机制对来自客户端的请求进行预处理和路由。这正是反向代理发挥作用的地方，它能够根据规则将请求转发到不同的后端服务器，从而实现负载均衡和高可用性。</p>
+<p>考虑下面的 Nginx 配置文件
+<div class="highlight"><pre><span></span><code><span class="k">server</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kn">listen</span><span class="w"> </span><span class="mi">8000</span><span class="p">;</span>
+<span class="w">  </span><span class="kn">server_name</span><span class="w"> </span><span class="s">localhost</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1"># 静态文件服务</span>
+<span class="w">  </span><span class="kn">location</span><span class="w"> </span><span class="s">/static</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kn">autoindex</span><span class="w"> </span><span class="no">on</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">alias</span><span class="w"> </span><span class="s">/code/static</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1"># 代理</span>
+<span class="w">  </span><span class="kn">location</span><span class="w"> </span><span class="s">/api</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kn">proxy_pass</span><span class="w"> </span><span class="s">http://111.111.111.112:8000</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p>当你在一台机器上（IP 地址为 <code>111.111.111.112</code>）启动 Django 后端应用，在另一台机器上（IP 地址为 <code>111.111.111.111</code>）启动 Nginx，Nginx 会监听 8000 端口，当有请求到达时，会根据请求的 <strong>URL 路径</strong>来进行不同的处理：</p>
+<ul>
+<li>当访问的路由为 <code>http://111.111.111.111:8000/static/index.html</code> 时，Nginx 会匹配到第一个 <code>location</code> 块，然后在本机的 <code>/code/static</code> 目录下查找 <code>index.html</code> 文件，如果找到了，就将其返回给客户端。即实现了静态文件服务。</li>
+<li>当访问的路由为 <code>http://111.111.111.111:8000/api/hello</code> 时，Nginx 会匹配到第二个 <code>location</code> 块，然后将请求转发到运行 Django 应用的机器上，等待后端应用处理完毕后，再将响应返回给客户端。即实现了反向代理。</li>
+</ul>
+<figure>
+<p><img alt="nginx" loading="lazy" src="../../../images/nginx.png" /></p>
+<figcaption>Nginx 的模式</figcaption>
+</figure>
+<h2 id="_1">部署简介</h2>
+<p>应用部署是指将开发的应用程序（上文中提到的 Web 服务器和后端应用程序）从开发环境迁移到生产环境的过程，以便最终用户能够访问和使用。</p>
+<p>以 Python Web 项目为例，在生产环境中，一般需要使用 Nginx 做反向代理服务器。</p>
+<p>在 Python Web 应用的部署过程中，我们经常会遇到这样的需求：既需要能处理 HTTP 请求/响应等底层网络协议的 Web 服务器（如 Nginx 或 Apache），又需要执行 Python 代码逻辑的应用服务器。但是，Web 服务器一般并不擅长直接运行 Python 代码，而 Python 应用则无法直接处理底层的 HTTP 请求。这就需要一个中间层来进行桥接。WSGI 服务器扮演了这一角色，它的作用就是接收来自 Web 服务器（如 Nginx）的请求，然后将这些请求转发给 Python 应用程序，同时，Python 应用程序的响应也会经过 WSGI 服务器，再返回给 Web 服务器，最终再由 Web 服务器返回给用户。</p>
+<p>以 <a href="https://gunicorn.org/">Gunicorn WSGI</a> 服务器为例，它是一个 Python WSGI HTTP 服务器，使用四个 worker 进程来运行 Web 应用，以提高服务器的并发处理能力：
+<div class="copy highlight"><pre><span></span><code>$<span class="w"> </span>gunicorn<span class="w"> </span>-w4<span class="w"> </span>myapp:app
+</code></pre></div></p>
+<p>这样部署的部署方式最终形成了下图所示的架构：
+<img alt="部署架构" src="../../../images/wsgi.png" /> </p>
+<p>由此可见，在生产环境中部署 Web 应用程序远比在本地运行更为复杂。不仅需要部署应用本身，还需要配置和管理诸如 Nginx 这样的 Web 服务器和 Gunicorn 这样的 WSGI 服务器，这些都是生产环境中必不可少的组件。同时，还需要处理安全性、可扩展性、日志管理、错误监控等问题。而且，还需要考虑到数据库、缓存、消息队列等其他依赖服务的配置和管理。所有这些因素都使得应用部署变得相当复杂，需要精心的规划和严谨的操作。虽然这需要付出更多的努力，但这是为了确保应用在生产环境中的稳定性和可用性。</p>
+<h2 id="_2">传统部署中的挑战与困扰</h2>
+<p>在互联网的早期，部署是一个手动、耗时且容易出错的过程。开发者需要在生产服务器上手动安装必要的软件，配置系统和应用设置，然后将应用代码从版本控制系统中拉取或者复制过去，最后手动启动应用。这种方法存在诸多问题：</p>
+<ol>
+<li><strong>环境配置的复杂性</strong>：环境配置的过程可能十分繁琐，尤其是当依赖库之间存在严重耦合时。这不仅会导致部署过程的困难，也会增大交接和沟通的成本，因为每次变更或者新人接手都需要完全理解所有配置和依赖关系。</li>
+<li><strong>服务器崩溃和迁移的问题</strong>：如果服务器突然崩溃，或者需要迁移到新的集群，常常需要重新部署应用，这可能会耗费大量的时间和精力。</li>
+<li><strong>系统特性的影响</strong>：不同的操作系统可能需要设置不同的开机自启动脚本，这增加了配置的复杂性。另外，更换系统或者升级系统版本可能会导致项目无法启动。</li>
+<li><strong>扩展性的问题</strong>：传统的部署方式难以实现快速多机部署和横向扩容，这限制了应用的扩展性和高可用性。</li>
+<li><strong>资源消耗和效率问题</strong>：如果使用虚拟机的方式进行部署，往往会有资源消耗过大、启动慢等问题。这既影响了应用的响应速度，也浪费了服务器资源。</li>
+</ol>
+<p>为了应对这些挑战，出现了一种新的部署方式：容器化部署。Docker 等容器化工具允许开发者打包应用及其全部依赖到一个隔离的环境中，从而在任何支持 Docker 的系统上以相同的方式运行，这简化了部署过程，提高了应用的可移植性和可扩展性。</p>
+<h2 id="docker_1">Docker</h2>
+<p>Docker 是一个开源的容器引擎，允许开发者打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux 机器或 Windows 机器上，也可以实现虚拟化。容器是完全使用沙盒机制，相互之间不会有任何接口。</p>
+<h3 id="docker_2">Docker 的优势</h3>
+<ol>
+<li><strong>简化程序</strong>：Docker 允许开发者使用任何语言来创建应用和服务，并且可以与其它工具无缝集成。</li>
+<li><strong>代码流水线管理</strong>：Docker 可以构建/发布版本和快速、可靠地复制环境。它的容器化特性使得持续集成/持续部署(CI / CD)流程更为简单。</li>
+<li><strong>开发和部署的一致性</strong>：Docker 能确保应用在本地和生产环境中的一致性，无需再担心 "在我的机器上运行正常" 的问题。</li>
+<li><strong>快速高效</strong>：Docker 容器相比虚拟机更为轻量且启动更快，它直接运行在宿主机的内核上，无需额外的 Hypervisor 层。因此，它的性能更好，启动更快，在相同的硬件条件下可以运行更多的容器。</li>
+<li><strong>隔离的应用环境</strong>：每个 Docker 容器都运行在自己的环境中，它们互不影响，可以独立升级和维护，增强了安全性。</li>
+<li><strong>可扩展性</strong>：Docker 的集群管理工具（如 Kubernetes 或 Docker Swarm）可以让应用轻松实现横向扩展，以应对各种负载。</li>
+</ol>
+<figure>
+<p><img alt="Docker架构" loading="lazy" src="../../../images/containers-vs-virtual-machines.jpg" /></p>
+<figcaption>虚拟机 vs 容器</figcaption>
+</figure>
+<h3 id="_3">主要组件</h3>
+<ul>
+<li><strong>Image 镜像</strong>：特殊文件系统，提供运行时所需程序、库、资源和配置等文件，在构建完成后不会改变。</li>
+<li><strong>Container 容器</strong>：容器是镜像运行时的实体，可以被创建、启动、停止和删除，与镜像的关系可以类比为OOP中的实例与类。</li>
+<li><strong>Registry 仓库</strong>：镜像的集中存储分发 一个镜像包括名称和标签，默认标签为<code>latest</code>。例如<code>ubuntu:18.04</code>。</li>
+</ul>
+<figure>
+<p><img alt="Docker架构" loading="lazy" src="../../../images/docker-arch.png" /></p>
+<figcaption>Docker 镜像、容器和 Registry 的关系</figcaption>
+</figure>
+<p>在整个工作流程中，开发人员通常会先从 Registry 仓库拉取所需的镜像到本地，然后基于镜像创建并启动容器。在容器中，开发人员可以运行应用，进行开发和测试工作。当开发完毕，也可以将修改后的镜像推送回仓库，以便其他人或在其他环境中使用。这样，通过 Image 镜像、Container 容器和 Registry 仓库的协同工作，Docker 实现了应用的快速部署、扩展和迁移。</p>
+<h3 id="docker_3">Docker 安装</h3>
+<p>本地安装可以参考<a href="https://docs.docker.com/engine/install/">官方文档</a>，或者参照<a href="https://yeasy.gitbook.io/docker_practice/install"> Docker—从入门到实践</a>进行，本次实验中你可以使用带 GUI 的Docker Desktop，也可以使用命令行版本的Docker Engine。</p>
+<p><a href="https://yeasy.gitbook.io/docker_practice/install/mirror">这份教程</a>介绍了如何在已经安装好 Docker 的情况下，配置镜像加速。</p>
+<details class="tip">
+<summary>服务器 Docker 安装</summary>
+<p>在助教发放的云服务器上，推荐使用清华大学镜像源进行 Docker 安装，具体操作请参考 <a href="https://mirrors.tuna.tsinghua.edu.cn/help/docker-ce/">清华大学开源软件镜像站</a> 其中的 <strong>自动安装方式</strong> 部分</p>
+<p><strong>注意：</strong>以下配置的镜像加速只能在云服务器上使用，外网（如本地计算机）无法访问该加速源，因此请勿在本地配置此加速源，否则将无法正常拉取 Docker 镜像。</p>
+<p>你可以遵循如下步骤来配置 Docker 镜像加速：</p>
+<ol>
+<li>执行以下命令，打开 /etc/docker/daemon.json 配置文件。
+  <div class="highlight"><pre><span></span><code>$<span class="w"> </span>sudo<span class="w"> </span>vim<span class="w"> </span>/etc/docker/daemon.json
+</code></pre></div></li>
+<li>在该文件中添加如下内容：
+  <div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;registry-mirrors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;https://mirror.ccs.tencentyun.com&quot;</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></li>
+<li>执行以下命令，重启 Docker 即可
+  <div class="highlight"><pre><span></span><code>$<span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>docker
+</code></pre></div></li>
+<li>重启 Docker 后，可以运行如下命令查看当前 Docker 的配置：
+  <div class="highlight"><pre><span></span><code>$<span class="w"> </span>sudo<span class="w"> </span>docker<span class="w"> </span>info
+</code></pre></div>
+  如镜像源配置成功，则输出的内容中会包含如下部分：
+  <div class="highlight"><pre><span></span><code>Registry<span class="w"> </span>Mirrors:
+https://mirror.ccs.tencentyun.com/
+</code></pre></div></li>
+</ol>
+<p>你也可以直接执行docker pull &lt;镜像名&gt; 命令来拉取镜像，如能成功拉取，则也能够说明配置成功。</p>
+</details>
+<h3 id="_4">常用命令</h3>
+<p>本小节将以一个简单的例子介绍 Docker 的工作流程，以及其中最常用的几个命令，更多命令可以参考<a href="https://docs.docker.com/engine/reference/commandline/docker/">官方文档</a>。</p>
+<p>例如我们要以容器化的方式运行 Nginx，首先从 Docker Hub 拉取最新版本的 Nginx 镜像：</p>
+<p><div class="highlight"><pre><span></span><code>$<span class="w"> </span>docker<span class="w"> </span>pull<span class="w"> </span>nginx:latest
+</code></pre></div>
+可以通过 <code>docker image ls</code> 来查看本地已有的镜像：</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>docker<span class="w"> </span>image<span class="w"> </span>ls
+REPOSITORY<span class="w">   </span>TAG<span class="w">       </span>IMAGE<span class="w"> </span>ID<span class="w">       </span>CREATED<span class="w">       </span>SIZE
+nginx<span class="w">        </span>latest<span class="w">    </span>eb4a57159180<span class="w">   </span><span class="m">2</span><span class="w"> </span>weeks<span class="w"> </span>ago<span class="w">   </span>187MB
+</code></pre></div>
+<p>镜像拉取成功后，可以基于这个镜像创建并运行一个新的容器：</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:80<span class="w"> </span>--name<span class="w"> </span>nginx<span class="w"> </span>nginx:latest
+</code></pre></div>
+<p><code>run</code>命令基于镜像创建并启动一个新的容器，<code>-d</code> 参数使得容器在后台运行，<code>-p 8080:80</code> 表示将容器的 80 端口映射到主机的 8080 端口，<code>--name nginx</code> 表示容器的名称为 nginx，<code>nginx:latest</code> 表示使用的镜像版本。</p>
+<p>使用<code>docker ps</code>命令就能查看正在运行中的容器：</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>docker<span class="w"> </span>ps
+CONTAINER<span class="w"> </span>ID<span class="w">   </span>IMAGE<span class="w">          </span>COMMAND<span class="w">                  </span>CREATED<span class="w">         </span>STATUS<span class="w">         </span>PORTS<span class="w">                  </span>NAMES
+8415482a6e05<span class="w">   </span>nginx:latest<span class="w">   </span><span class="s2">&quot;/docker-entrypoint.…&quot;</span><span class="w">   </span><span class="m">5</span><span class="w"> </span>seconds<span class="w"> </span>ago<span class="w">   </span>Up<span class="w"> </span><span class="m">5</span><span class="w"> </span>seconds<span class="w">   </span><span class="m">0</span>.0.0.0:8080-&gt;80/tcp<span class="w">   </span>nginx
+</code></pre></div>
+<p>这样我们就可以通过访问主机的 8080 端口来访问运行在容器中的 Nginx 服务器。
+<img alt="Nginx" src="../../../images/nginx-hello.png" /></p>
+<h3 id="dockerfile">Dockerfile</h3>
+<p>Dockerfile 是一个文本文件，其中包含了一系列的命令，这些命令被用于自动创建 Docker 镜像。每一条命令都会在镜像上创建一个新的层，最终形成了一个完整的镜像。这就像一个自动化脚本，开发者可以通过 Dockerfile 来定义应用运行所需的环境，包括操作系统、软件库、环境变量、文件以及运行的命令等。</p>
+<div class="admonition question">
+<p class="admonition-title">为什么需要 Dockerfile</p>
+<p>虽然我们可以通过 <code>docker pull</code> 来从 Docker Hub 获取预先定义好的镜像，然后使用 <code>docker run</code> 来运行这些镜像，但这仅仅适用于比较简单的情况。对于复杂的业务需求，我们可能需要定制化的镜像，例如安装特定版本的软件库，添加特定的配置文件，运行特定的启动脚本等。在这种情况下，仅仅依赖已经构建好的镜像是不足以满足需求的。</p>
+</div>
+<p>通过使用 Dockerfile，我们可以详细地描述镜像构建的每一个步骤，将复杂的构建过程自动化。这样，无论何时何地，只要有 Dockerfile 和相应的依赖文件，我们都能构建出完全相同的镜像，从而实现了应用部署环境的一致性。同时，Dockerfile 还能被用作版本控制，可以追踪镜像的修改历史，有利于团队协作和问题排查。因此，对于复杂的业务需求，Dockerfile 是一个非常重要的工具。</p>
+<p>下面将用一个简单的例子来说明 Dockerfile 的作用。</p>
+<p>假设我们想创建一个运行 Nginx 服务器的 Docker 镜像，并且在这个镜像中，我们想使用<strong>自定义</strong>的 Nginx <strong>配置文件和网站页面</strong>。在这种情况下，我们就可以使用 Dockerfile 来构建这个镜像。一个基本的 Dockerfile 可能如下</p>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">nginx:latest</span><span class="w"> </span>
+
+<span class="k">COPY</span><span class="w"> </span>nginx.conf<span class="w"> </span>/etc/nginx/nginx.conf
+
+<span class="k">COPY</span><span class="w"> </span>index.html<span class="w"> </span>/usr/share/nginx/html/index.html
+
+<span class="k">EXPOSE</span><span class="w"> </span><span class="s">80</span>
+
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;nginx&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;-g&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;daemon off;&quot;</span><span class="p">]</span>
+</code></pre></div>
+<p>这个 Dockerfile 执行的第一步是从 Docker Hub 下载最新版本的官方 Nginx 镜像，如果本地已经有这个镜像，就不会再次下载。接着，它会将我们本地的 nginx.conf 文件复制到容器的 <code>/etc/nginx/nginx.conf</code>，以覆盖默认的 Nginx 配置文件。然后，它会将我们的网站页面复制到容器的网站根目录中。在开放 80 端口后，我们通过 CMD 指令设置容器启动时运行 Nginx 服务器。</p>
+<p>在本地，我们的 nginx.conf 和 index.html 内容如下</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1"><code>nginx.conf</code></label><label for="__tabbed_1_2"><code>index.html</code></label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>events {
+    worker_connections 1024;
+}
+
+http {
+    server {
+        listen 80;
+
+        location / {
+            root /usr/share/nginx/html;
+            index index.html index.htm;
+        }
+    }
+}
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span> Hello World! <span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span> This is a customized Nginx welcome page! <span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>完成 Dockerfile 后，可以使用 docker build 命令在相应目录下构建新镜像：
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>my-nginx<span class="w"> </span>.
+</code></pre></div>
+这条命令将会在当前目录（由 <code>.</code> 指定）下查找 Dockerfile 并根据其内容构建一个新的 Docker 镜像，镜像名称为 my-nginx。</p>
+<p>在镜像构建完成后，我们就可以使用 docker run 命令来启动这个镜像，运行我们的自定义 Nginx 服务器：
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:80<span class="w"> </span>--name<span class="w"> </span>custom-nginx<span class="w"> </span>my-nginx
+</code></pre></div>
+这样访问主机的 8080 端口就可以看到我们自定义的 Nginx 服务器了。</p>
+<figure>
+<p><img alt="Nginx" loading="lazy" src="../../../images/nginx-hello-custom.png" /></p>
+<figcaption>使用 Dockerfile 定制化的 Nginx 容器</figcaption>
+</figure>
+<p>你可以参照 <a href="https://yeasy.gitbook.io/docker_practice/image/build">这个链接</a> 来学习更多关于 Dockerfile 的内容。</p>
+<h3 id="docker-compose">Docker Compose</h3>
+<p>Docker Compose 是一个用于编排多个 Docker 容器的工具，它的主要目标是“定义和运行由多个 Docker 容器组成的应用”。用户可以通过一个名为 <code>docker-compose.yml</code> 的模板文件，定义一组互相关联的应用容器，这些容器协同工作，共同组成一个项目。</p>
+<p>在 Docker Compose 的语境下，我们会遇到两个核心概念：Service 和 Project。</p>
+<p>Service，或者说服务，主要代表应用的容器。每个服务在 Docker Compose 中都运行在它自己的容器中，并扮演着特定的角色。例如，在一个网页应用中，可能会有一个服务负责运行Web服务器，另一个服务负责运行数据库。这些服务可以单独进行扩展和调整，以满足各自的需求和性能目标。</p>
+<p>Project，或者说项目，是由一组容器组成的业务单元。这些容器通过 <code>docker-compose.yml</code> 模板文件进行定义，并协同工作以实现一项特定的业务功能。项目让我们可以在更高的层次上理解和管理应用，因为它把可能包含多个服务（即多个容器）的应用视作一个整体。</p>
+<p>因此，Docker Compose的主要优势在于它简化了管理和组织多容器应用的过程。用户不再需要单独地运行和配置每一个容器，而是可以通过单一的<code>docker-compose.yml</code>文件，以一种声明式的方式，描述出所有服务的配置和他们之间的关系，从而更高效地部署和运行复杂的多容器应用。</p>
+<h3 id="_5">实例</h3>
+<p>下面我们以一个实际项目来说明 Dockerfile 和 Docker Compose 的使用方法，<a href="https://github.com/LinLiuLab/django-docker-tutorial">项目地址</a></p>
+<p>该项目由三个主要部分组成，分别为：</p>
+<ul>
+<li>一个基于 Django 的 MVC 应用</li>
+<li>MySQL 数据库用作应用的数据存储</li>
+<li>Nginx 作为应用的 Web 服务器</li>
+</ul>
+<p>项目的目录结构如下：
+<div class="highlight"><pre><span></span><code>├──<span class="w"> </span>Dockerfile<span class="w">          </span><span class="c1"># 用于构建应用（app）容器</span>
+├──<span class="w"> </span>README.md
+├──<span class="w"> </span>collected_static
+├──<span class="w"> </span>config
+├──<span class="w"> </span>django_app<span class="w">          </span><span class="c1"># Django 应用的代码</span>
+├──<span class="w"> </span>docker-compose.yml<span class="w">  </span><span class="c1"># 用于编排多个容器</span>
+├──<span class="w"> </span>manage.py
+└──<span class="w"> </span>requirements.txt
+</code></pre></div></p>
+<p>相信各位同学已经在<strong>之前的课程中</strong>学习过 Web 开发的相关知识，因此这里不再赘述。我们的目标是将这个项目容器化，使得我们可以通过 Docker Compose 来一键启动或者部署整个项目。</p>
+<p>首先我们看一下 Dockerfile 的内容：
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">python:3.7</span>
+
+<span class="k">ENV</span><span class="w"> </span>PYTHONUNBUFFERED<span class="w"> </span><span class="m">1</span>
+
+<span class="k">RUN</span><span class="w"> </span>mkdir<span class="w"> </span>/code
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/code</span>
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pip<span class="w"> </span>-U<span class="w"> </span>-i<span class="w"> </span>https://pypi.tuna.tsinghua.edu.cn/simple
+<span class="k">ADD</span><span class="w"> </span>requirements.txt<span class="w"> </span>/code/
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt<span class="w"> </span>-i<span class="w"> </span>https://pypi.tuna.tsinghua.edu.cn/simple
+<span class="k">ADD</span><span class="w"> </span>.<span class="w"> </span>/code/
+</code></pre></div>
+这个 Dockerfile 的内容比较简单，它首先指定了基础镜像为 Python 3.7，然后安装了项目所需要的依赖，最后将项目的代码复制到镜像中。这样我们就可以通过 Dockerfile 来构建一个包含项目代码和依赖的镜像了。</p>
+<details class="tip">
+<summary>如何调试 Dockerfile 的构建</summary>
+<p>在实际编写 Dockerfile 的过程中，我们可能会遇到一些问题，例如某些依赖无法安装、代码无法复制等等。这时我们可以通过在 Dockerfile 中添加一些<strong>调试信息</strong>来帮助我们定位问题。</p>
+<p>例如，我们可以在 Dockerfile 中添加一条 <code>RUN ls -l</code> 命令来查看当前目录下的文件列表，或者添加一条 <code>RUN echo $PYTHONPATH</code> 命令来查看环境变量的值。这些调试信息可以帮助我们更好地理解 Dockerfile 的构建过程，从而更好地定位问题。</p>
+</details>
+<details class="tip">
+<summary>如何确定构建的 Dockerfile 符合预期</summary>
+<p>在构建好镜像之后，我们可能需要判断镜像是否符合预期。</p>
+<p>例如，我们可以通过 <code>docker run -it &lt;image_name&gt; /bin/bash</code> 命令来启动一个容器，或者通过<code>docker exec -it &lt;container_name&gt; /bin/bash</code> 命令来进入一个已经启动的容器，并在容器中利用 Linux 的命令行工具来查看容器中的文件列表、环境变量等信息。</p>
+</details>
+<hr />
+<p>前面我们提到过，项目由三个主要部分组成，分别是数据库、Nginx 和 Django 应用。因此，在 <code>docker-compose.yaml</code> 文件中也分别定义了三者的配置：</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:4"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><input id="__tabbed_2_4" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1"><code>App</code></label><label for="__tabbed_2_2"><code>MySQL</code></label><label for="__tabbed_2_3"><code>Nginx</code></label><label for="__tabbed_2_4"><code>Network</code></label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><div class="highlight"><pre><span></span><code><span class="nt">app</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always</span>
+<span class="w">  </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="w">  </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
+<span class="w">    </span><span class="no">bash -c</span>
+<span class="w">    </span><span class="no">&quot;python3 manage.py collectstatic --no-input &amp;&amp;</span>
+<span class="w">    </span><span class="no">python3 manage.py migrate &amp;&amp;</span>
+<span class="w">    </span><span class="no">gunicorn --timeout=30 --workers=4 --bind :8000 django_app.wsgi:application&quot;</span>
+<span class="w">  </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.:/code</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">static-volume:/code/static</span>
+<span class="w">  </span><span class="nt">expose</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;8000&quot;</span>
+<span class="w">  </span><span class="nt">depends_on</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">db</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">service_healthy</span>
+<span class="w">  </span><span class="nt">networks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">web_network</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db_network</span>
+</code></pre></div>
+对于 Django 应用，<code>build .</code> 指定了构建镜像的路径，<code>command</code> 代表容器启动时执行的命令，我们想让容器在启动时自动执行 Django 的数据迁移和静态文件收集操作，然后使用 Gunicorn 启动 Django 应用。</p>
+<ul>
+<li><code>volumes</code> 用于指定容器与宿主机的文件映射关系，这里我们将宿主机的当前目录映射到容器的 <code>/code</code> 目录，这样我们就可以在宿主机上修改代码，然后在容器中运行最新的代码。</li>
+<li><code>expose</code> 用于指定容器暴露的端口，我们将容器的 8000 端口暴露出来，以便其他容器可以通过 8000 端口来访问 app 容器中的 Django 应用。</li>
+<li><code>depends_on</code> 用于指定容器之间的依赖关系，这里我们指定了 Django 应用依赖于数据库，确保在数据库初始化完成之前，Django应用不会启动，以避免出现连接数据库失败的情况。<ul>
+<li><code>condition: service_healthy</code> 用于指定依赖的健康检查策略。</li>
+</ul>
+</li>
+<li><code>networks</code> 用于指定容器所属的网络，这里我们将 Django 应用放在两个网络中，这样 Django 应用既可以从 Nginx 中接收请求，又可以连接到数据库。</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><div class="highlight"><pre><span></span><code><span class="nt">db</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mysql:5.7</span>
+<span class="w">  </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;./mysql:/var/lib/mysql&quot;</span>
+<span class="w">  </span><span class="nt">env_file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.env</span>
+<span class="w">  </span><span class="nt">expose</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;3306&quot;</span>
+<span class="w">  </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always</span>
+<span class="w">  </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYSQL_DATABASE=${DB_NAME}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYSQL_ROOT_PASSWORD=${DB_PASSWORD}</span>
+<span class="w">  </span><span class="nt">networks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db_network</span>
+<span class="w">  </span><span class="nt">healthcheck</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;CMD-SHELL&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;mysqladmin</span><span class="nv"> </span><span class="s">ping</span><span class="nv"> </span><span class="s">-h</span><span class="nv"> </span><span class="s">localhost</span><span class="nv"> </span><span class="s">-u</span><span class="nv"> </span><span class="s">root</span><span class="nv"> </span><span class="s">-p${DB_PASSWORD}&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5s</span>
+<span class="w">    </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10s</span>
+<span class="w">    </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+</code></pre></div>
+数据库使用的是 MySQL 5.7 镜像</p>
+<ul>
+<li>将宿主机的 <code>./mysql</code> 目录映射到容器的 <code>/var/lib/mysql</code> 目录，这样可以在宿主机上持久化地保存数据库的数据了。</li>
+<li><code>env_file</code> 用于指定环境变量文件，这里我们指定了 <code>.env</code> 文件，这样容器在启动时就会读取这个文件中的环境变量。</li>
+<li>暴露容器的 3306 端口，后端应用可以通过这个端口来访问数据库。</li>
+<li><code>restart</code> 用于指定容器的重启策略，这里我们指定了容器总是在退出时重启。</li>
+<li><code>environment</code> 用于指定容器的环境变量，文件中指定了数据库初始化时的用户名和密码。</li>
+<li>数据库容器被放在了 <code>db_network</code> 网络中，只能被后端容器访问。</li>
+<li><code>healthcheck</code> 用于指定容器的健康检查策略，通过 <code>mysqladmin ping</code> 命令来检查数据库是否正常运行。</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">健康检查</p>
+<p>健康检查是 Docker Compose 中非常重要的功能，它能够帮助我们监控容器的运行状态，及时发现并处理异常情况。通过健康检查，容器启动后可以定期检测其运行状况。</p>
+<p>健康检查还可用于容器之间的依赖管理。例如，在本案例中，数据库的健康检查用于验证其是否完成初始化并可接受连接。而后端服务（如 Django 应用）通过依赖数据库的健康检查，仅在数据库状态为健康时才启动，从而避免在数据库未完全就绪时出现连接失败和不断重试的情况。</p>
+</div>
+</div>
+<div class="tabbed-block">
+<p><div class="highlight"><pre><span></span><code><span class="nt">nginx</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always</span>
+<span class="w">  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx:latest</span>
+<span class="w">  </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;8001:8000&quot;</span>
+<span class="w">  </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">static-volume:/code/static</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./config/nginx:/etc/nginx/conf.d</span>
+<span class="w">  </span><span class="nt">depends_on</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">app</span>
+<span class="w">  </span><span class="nt">networks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">web_network</span>
+</code></pre></div>
+Nginx 使用的是官方的最新镜像</p>
+<ul>
+<li><code>ports</code> 用于指定容器暴露的端口，这里我们将容器的 8000 端口映射到宿主机的 8001 端口，以便我们可以通过宿主机的 8001 端口来访问容器中的 Django 应用。</li>
+<li>将宿主机的 <code>./config/nginx</code> 目录映射到容器的 <code>/etc/nginx/conf.d</code> 目录，使得 Nginx 在启动时直接读取宿主机的配置文件，而不是使用镜像中的默认配置文件。</li>
+<li>指定 Nginx 依赖于 Django 应用，确保 Nginx 在 Django 应用启动完成后再启动。</li>
+<li>Nginx 被放在了 <code>web_network</code> 网络中，限定了其只能访问 Django 容器，而不能直接访问数据库容器。</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><div class="highlight"><pre><span></span><code><span class="nt">networks</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">web_network</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bridge</span>
+<span class="w">  </span><span class="nt">db_network</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bridge</span>
+</code></pre></div>
+分别创建了 <code>web_network</code> 和 <code>db_network</code> 两个网络，其中 <code>web_network</code> 用于连接 Django 应用和 Nginx，<code>db_network</code> 用于连接 Django 应用和 MySQL。这样做的好处在于，我们可以有效地隔离 Django 应用、Nginx 和 MySQL，提高安全性。</p>
+</div>
+</div>
+</div>
+<hr />
+<p>在启动容器之前，我们还需要做如下准备</p>
+<ul>
+<li>首先需要将目录中的 <code>.env_example</code> 文件复制一份，重命名为 <code>.env</code>，并修改其中的环境变量 [DB_NAME] 和 [DB_PASSWORD]，用于 MySQL 镜像的配置和使用。</li>
+<li>然后修改 <code>django_apps/settings.py</code> 中的 <code>DATABASES</code> 配置内容，替换 <code>[DB_NAME]</code> 与 <code>[DB_PASSWORD]</code> 为你在 <code>.env</code> 文件中设置的值。
+    <div class="highlight"><pre><span></span><code><span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">&quot;ENGINE&quot;</span><span class="p">:</span> <span class="s2">&quot;django.db.backends.mysql&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;NAME&quot;</span><span class="p">:</span> <span class="s2">&quot;[DB_NAME]&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;USER&quot;</span><span class="p">:</span> <span class="s2">&quot;root&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;PASSWORD&quot;</span><span class="p">:</span> <span class="s2">&quot;[DB_PASSWORD]&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;HOST&quot;</span><span class="p">:</span> <span class="s2">&quot;db&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;PORT&quot;</span><span class="p">:</span> <span class="s2">&quot;3306&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;OPTIONS&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;charset&quot;</span><span class="p">:</span> <span class="s2">&quot;utf8mb4&quot;</span><span class="p">},</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></li>
+</ul>
+<p>完成配置后，我们可以通过以下命令一键启动 Django 应用：</p>
+<p><div class="highlight"><pre><span></span><code>$<span class="w"> </span>docker-compose<span class="w"> </span>up
+</code></pre></div>
+启动后，访问 <code>http://localhost:8001</code> 即可查看我们的 Django 应用。</p>
+<h2 id="_6">延展阅读</h2>
+<p>如果想进一步深入了解Docker的实现原理，例如 Cgroups、Namespace 等技术，可以参考<a href="https://mp.weixin.qq.com/s/Z5j0LPYQE5dCR0LOzbUlrQ">这篇博客</a>。</p>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="最后更新">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年11月28日</span>
+  </span>
+
+    
+    
+    
+      
+  
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="贡献者">
+      
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4Z"/></svg>
+      
+    </span>
+    <nav>
+      
+        <a href="mailto:513964121@qq.com">luzhan</a>
+    </nav>
+  </span>
+
+    
+    
+  </aside>
+
+
+  
+
+
+
+
+                
+  <div class="admonition tip">
+    <p class="admonition-title">获取最新的内容</p>
+    <p>为了避免页面使用缓存</p>
+    <p>Windows 用户可以使用 <span class="keys">
+      <kbd class="key-control">Ctrl</kbd> 
+      <span>+</span>
+      <kbd class="key-shift">Shift</kbd>
+      <span>+</span>
+      <kbd class="key-r">R</span></p>
+    <p>Mac 用户可以使用 <span class="keys">
+      <kbd class="key-command">Command</kbd> 
+      <span>+</span>
+      <kbd class="key-shift">Shift</kbd>
+      <span>+</span>
+      <kbd class="key-r">R</span> 来强制刷新页面，以获取最新的内容</p>
+  </div>
+  
+    <div class="md-source-date">
+      <!-- <small>
+          作者: <span class='git-page-authors git-authors'><a href='mailto:513964121@qq.com'>luzhan</a></span>
+      </small> -->
+    </div>
+  
+
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../linux/" class="md-footer__link md-footer__link--prev" aria-label="上一页: Linux基础">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                Linux基础
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../requirements/" class="md-footer__link md-footer__link--next" aria-label="下一页: 作业要求">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                作业要求
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 LinLiuLab. All Rights Reserved.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.footer", "navigation.expand", "navigation.top", "navigation.path", "navigation.sections", "navigation.indexes", "header.autohide", "content.code.copy", "search.share", "search.suggest", "toc.follow"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.af256bd8.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://fastly.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/wavedrom@2.1.2/wavedrom.unpkg.js"></script>
+      
+    
+  </body>
+</html>
