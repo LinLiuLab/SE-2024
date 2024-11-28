@@ -24,6 +24,7 @@ nav:
       - 作业要求: exercises/docker/requirements.md
       - 提交说明: exercises/docker/submit.md
       - FAQ: exercises/docker/faq.md
+    - UML建模: exercises/uml.md
 
 theme:
   name: material
